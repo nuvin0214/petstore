@@ -3,7 +3,7 @@ package com.example.petstore;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ResourcesManage {
+public class ResourcesManage {
 
     private static List<Pet> pets = new ArrayList<Pet>();
     private static List<PetType> petTypes = new ArrayList<PetType>();
@@ -90,4 +90,7 @@ public final class ResourcesManage {
         return petTypes;
     }
 
+    public int nuvin(){
+        return 0;
+    }
 }

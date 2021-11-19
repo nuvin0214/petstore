@@ -1,16 +1,17 @@
 package org.acme;
 
+import com.example.petstore.Pet;
+import com.example.petstore.PetType;
+import com.example.petstore.ResourcesManage;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasEntry;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.allOf;
 
 @QuarkusTest
 public class PetResourceTest {
+
 
     @Test
     public void testGetPets() {
@@ -23,47 +24,28 @@ public class PetResourceTest {
     @Test
     public void testGetPet() {
         given()
-                .when().get("/v1/pets/")
+                .header("Content-Type", "application/json")
+                .pathParam("petId", 1)
+                .when().delete("/pets/{petId}")
                 .then()
-                .statusCode(200);
+                .assertThat()
+                .statusCode(404);
     }
-    //1
-
-
-    //2
-//    @Test
-//    void testPetEndpointSuccess()
-//    {
-//        given()
-//                .when().get( "/pets" )
-//                .then()
-//                .assertThat()
-//                .statusCode( 200 )
-//                .body( "petId", notNullValue() )
-//                .body( "petAge", equalTo( new ArrayList()
-//                {{
-//                    add( 5 );
-//                    add( 4 );
-//                    add( 2 );
-//                }} ) )
-//                .body( "petName", equalTo( new ArrayList()
-//                {{
-//                    add( "boola" );
-//                    add( "sudda" );
-//                    add( "boola" );
-//                }} ) )
-//                .body( "petType", equalTo( new ArrayList()
-//                {{
-//                    add( "dog" );
-//                    add( "cat" );
-//                    add( "dog" );
-//                }} ) );
-//
-//    }
-
-    //3
     @Test
     public void testAddPetEndpoint() {
+
+        ResourcesManage mock = Mockito.mock(ResourcesManage.class);
+        PetType petType = new PetType();
+        petType.setName("dog");
+        petType.setPetTypeId(1);
+
+        Pet pet = new Pet();
+        pet.setPetType(petType);
+        pet.setPetAge(5);
+        pet.setPetName("Timmy");
+        pet.setPetId(5);
+
+//        Mockito.when(mock.addPet(pet)).thenReturn(true);
         given()
                 .header("Content-Type", "application/json")
                 .body("{\n" +
@@ -79,15 +61,6 @@ public class PetResourceTest {
                 .then()
                 .assertThat()
                 .statusCode(404);
-//                .body(hasItem(
-//                        allOf(
-//                                hasEntry("petId","5"),
-//                                hasEntry("petType","dog"),
-//                                hasEntry("petName","Scrappy"),
-//                                hasEntry("petAge","3")
-//                        )
-//                    )
-//                );
 
     }
 

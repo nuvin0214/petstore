@@ -58,7 +58,7 @@ public class PetResource {
             @APIResponse(responseCode = "200", description = "Pet has added"),
             @APIResponse(responseCode = "404", description = "No Pet found for the id.")
     })
-    @POST
+    @PUT
     @Path("{petId}")
     public Response updatePet(@PathParam("petId") int petId, @RequestBody(required = true) Pet pet) {
         if(ResourcesManage.updatePet(pet)){
